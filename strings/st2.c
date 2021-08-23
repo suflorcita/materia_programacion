@@ -14,8 +14,8 @@ int main(){
 
 	tam = strlen(palabra); 
 
-	for(i = 0; i < tam + 1; i++){
-		printf("%c", palabra[tam - i]); 
+	for(i = 0; i < tam; i++){
+		printf("%c", palabra[tam - i - 1]); 
 	}
 
 
