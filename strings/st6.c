@@ -1,5 +1,4 @@
-
-/*Leer 5 strings por teclado y almacenarlos en un archivo.*/
+/*Leer los strings del archivo del ej. anterior y mostrarlos en pantalla.*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,21 +11,21 @@ int main(){
 	
 	FILE *arch; 
 
-	arch = fopen("palabras.dat", "wb"); 
+	arch = fopen("palabras.dat", "rb"); 
 
 	if (arch != NULL){
 		for(i = 0; i < 5; i++){
-
-			printf("Ingrese una palabra: "); 
-			scanf("%s", palabra); 
-
-			n = fwrite(&palabra, sizeof palabra, 1, arch); 
-			if (n != 1){
-				printf("Error al grabar\n"); 
-				fclose(arch); 
+			n = fread(&palabra, sizeof palabra, 1, arch); 
+			
+			if(n != 1){
+				printf("Error al leer\n"); 
+				fclose(arch);
 				exit(1);
-			} 
+			}
+
+			printf("%s \n", palabra); 	
 		}
+		
 	} else {
 		printf("Error al abrir el archivo para escritura \n"); 
 		exit(2); 
