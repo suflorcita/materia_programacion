@@ -40,6 +40,7 @@ void lee_archivo (int m [F][C]) {
     arch=fopen("matrix.dat", "r");
     if(arch != NULL) {
         n = fread (m, sizeof m[0][0], F*C, arch);
+        // fread devuelve el numero de elementos leidos 
         if(n != F*C){
             printf("Error al leer\n");
             fclose(arch);
