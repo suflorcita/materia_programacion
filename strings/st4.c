@@ -20,12 +20,19 @@ int main(){
 			printf("Ingrese una palabra: "); 
 			scanf("%s", palabra); 
 
-			fprintf(arch, "%s", palabra);
+			n = fwrite(&palabra, sizeof palabra, 1, arch); 
+			if (n != 1){
+				printf("Error al grabar\n"); 
+				fclose(arch); 
+				exit(1);
+			} 
 		}
 	} else {
 		printf("Error al abrir el archivo para escritura \n"); 
-		exit(1); 
+		exit(2); 
 	}
+
+	fclose(arch); 
 
 }
 
