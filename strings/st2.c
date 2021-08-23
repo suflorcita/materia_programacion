@@ -9,13 +9,13 @@ int main(){
 	char palabra[20]; 
 	int tam, i; 
 
-	printf("Ingrese una palabra\n"); 
+	printf("Ingrese una palabra: "); 
 	scanf("%s", palabra);
 
 	tam = strlen(palabra); 
 
-	for(i = 0; i < tam; i++){
-		printf("%c", palabra[i] - 32); 
+	for(i = 0; i < tam + 1; i++){
+		printf("%c", palabra[tam - i]); 
 	}
 
 
