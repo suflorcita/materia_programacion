@@ -39,7 +39,7 @@ int main(){
 
 	v3 = composicion(v1, v2);
 
-	printf("El vector (%.2f, %.2f) es el vector composición de ambos vectores\n", v3.x, v3.y); 
+	printf("El vector (%.2f, %.2f) es el que resulta de la composición de ambos vectores\n", v3.x, v3.y); 
 
 	return 0; 
 }

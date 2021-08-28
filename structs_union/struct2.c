@@ -1,7 +1,5 @@
 /*Leer el archivo estudiantes.dat y mostrar el estudiante con el mayor promedio.*/
-
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdlib.h>
 #define MAX 100
 
@@ -14,8 +12,9 @@ struct estudiante{
 }; 
 
 int main(){
+	int i = 0; 
 	float mayor = -1; 
-	struct estudiante est, may; // declaro vector de estudiantes
+	struct estudiante est[MAX], may; // declaro vector de estudiantes
 
 	FILE *arch; 
 	
@@ -26,15 +25,19 @@ int main(){
         return 1;
     }
 
-    while(fread(&est, sizeof(est), 1, arch)>0){
-    	if(est.promedio > mayor) {
-    		mayor = est.promedio; 
-    		may = est; //almacena el estudiante con mayor promedio 
+    while(fread(&est[i], sizeof est[i], 1, arch)>0){ 
+    	if(est[i].promedio > mayor) {
+    		mayor = est[i].promedio; 
+    		may = est[i]; //almacena el estudiante con mayor promedio 
     	}
-    	//printf("Su legajo es %d, su nombre es %s, su promedio es %.2f\n", est.legajo, est.nombre, est.promedio); 
+    	//printf("Su legajo es %d, su nombre es %s, su promedio es %.2f\n",est[i].legajo, est[i].nombre, est[i].promedio); 
+        i++;  
     }
 
-    printf("El legajo del alumno con mayor promedio es %d, su nombre es %s, su promedio es %.2f\n", may.legajo, may.nombre, may.promedio); 
-    fclose(arch); 
+    fclose(arch);
+    
+    printf("El número de legajo del alumno con mayor promedio es %d\n", may.legajo);  
+    printf("Su nombre es %s y su promedio es %.2f\n", may.nombre, may.promedio); 
+ 
     return 0;
 }

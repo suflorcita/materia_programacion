@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdlib.h>
 #define MAX 100
 
 /*Defino un struct con los datos del estudiante*/
@@ -15,8 +14,8 @@ struct estudiante{
 }; 
 
 int main(){
-	int leg, n, i = 0; 
-	struct estudiante ve; // declaro vector de estudiantes
+	int leg, i = 0; 
+	struct estudiante ve[MAX]; // declaro vector de estudiantes
 
 	FILE *arch; 
 	
@@ -32,21 +31,26 @@ int main(){
 	scanf("%d", &leg); 
 
 	while (leg != 0){
-		ve.legajo = leg; 
+		ve[i].legajo = leg; 
 
 		printf("Ingrese el nombre del alumno: "); 
-		scanf("%s", ve.nombre); 
+		scanf("%s", ve[i].nombre); 
 
 		printf("Ingrese el promedio del estudiante: "); 
-		scanf("%f", &ve.promedio); 
+		scanf("%f", &ve[i].promedio); 
 
-		fwrite(&ve,sizeof(ve),1,arch); //Escribo en el archivo la información de cada estudiante 
+		fwrite(&ve[i], sizeof ve[i],1,arch); //Escribo en el archivo la información de cada estudiante 
+
+		i++; 
 		
 		printf("Ingrese el número de legajo, si ingresa 0 termina el programa: "); 
 		scanf("%d", &leg); 
 
 	}
 
-	fclose(arch); //ciero el archivo
+	fclose(arch); //cierro el archivo
+
+	
+
 	return 0; 
 }
