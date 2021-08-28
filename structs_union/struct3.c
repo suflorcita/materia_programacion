@@ -37,7 +37,7 @@ int main(){
 	scanf("%lf", &p2.y); 
 
 
-	res = distancia(p1, p2);
+	res = distancia(p1, p2); //Llamo a la función que calcula la distancia euclídea
 
 	printf("La distancia euclidea entre esos dos puntos y con dos decimales es de %.2f\n", res);
 
