@@ -20,7 +20,7 @@ int main(){
 			printf("Ingrese una palabra: "); 
 			scanf("%s", palabra); 
 
-			n = fwrite(&palabra, sizeof palabra, 1, arch); 
+			n = fwrite(&palabra, sizeof(palabra), 1, arch); 
 			if (n != 1){
 				printf("Error al grabar\n"); 
 				fclose(arch); 
