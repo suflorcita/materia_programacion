@@ -26,6 +26,7 @@ void escribir_archivo(int *v, int n){
 		printf("Error creando\n");  
 	}
 
+
 }
 
 void leer_archivo(int n){
