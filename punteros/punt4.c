@@ -6,7 +6,7 @@ int impares (int *v, int tam);*/
 #include <stdio.h>
 
 int impares(int *v, int tam){
-/*Función que devuelve la cantidad de números impares en un */
+/*Función que devuelve la cantidad de números impares en un vector de enteros*/
 
 	int cant = 0; 
 
@@ -21,13 +21,21 @@ int impares(int *v, int tam){
 int main(){
 /*pruebo la función*/
 
-	int prueba[9] = {1, 4, 5, 6, 7, 7, 8, 9, 3}; 
-	int tamanio = 9; 
+	int vector[100]; 
+	int tamanio; 
 	int cantidad_impares; 
 
-	cantidad_impares = impares(&prueba[0], tamanio); 
+	printf("Ingrese tamaño del vector: "); 
+	scanf("%d", &tamanio);
 
-	printf("Hay %d números impares\n", cantidad_impares); 
+	for(int i = 0; i < tamanio; i++){
+		printf("Ingrese el elemento %d del vector: ", i); 
+		scanf("%d", &vector[i]); 
+	}
+
+	cantidad_impares = impares(vector, tamanio); 
+
+	printf("Hay %d número(s) impar(es).\n", cantidad_impares); 
 
 	return 0; 
 }
