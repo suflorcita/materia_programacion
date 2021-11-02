@@ -24,7 +24,7 @@ void lee_imprime (unsigned char reg){
 
   outb (reg, P);
   valor = inb(P + 1);
-  printf("%02x\n", valor); 
+  printf("%02x", valor); 
 }
   
 
@@ -36,14 +36,30 @@ int main(){
     perror("ioperm"); //Mueestra "ioperm" + el mensaje de error 
     exit(1);
   }
-  
-  lee_imprime(0x02);
-  lee_imprime(0x03);
+  printf("La hora es: ");
   lee_imprime(0x04);
+  printf(":");
+  lee_imprime(0x02);
+  printf(":");
+  lee_imprime(0x00); 
+  printf("\n");
+
+  printf("La hora en que está seteada la alarma es: ");
   lee_imprime(0x05);
+  printf(":");
+  lee_imprime(0x03);
+  printf(":");
+  lee_imprime(0x01);
+  printf("\n"); 
+
+
+  printf("Hoy es el dia ");
   lee_imprime(0x06);
+  printf(" del ");
   lee_imprime(0x07);
+  printf(" del ");
   lee_imprime(0x08);
+  printf(" del ");
   lee_imprime(0x09);
   //lee_imprime(0x0A);
   //lee_imprime(0x0B);
