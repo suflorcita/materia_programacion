@@ -67,7 +67,7 @@ int main(){
   lee_imprime(0x08);
   printf(" (registro 08)del ");
   lee_imprime(0x09);
-  printf(" (registro 09)del ");
+  printf(" (registro 09)\n");
 
   printf("Registro A: ");
   lee_imprime(0x0A);
@@ -77,6 +77,7 @@ int main(){
   lee_imprime(0x0C);
   printf("\nRegistro D: ");
   lee_imprime(0x0D);
+  print("\n"); 
 
   /*Retirar permisos */
   if (ioperm(P, 2, 0)) {
