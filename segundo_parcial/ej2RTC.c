@@ -77,7 +77,7 @@ int main(){
   lee_imprime(0x0C);
   printf("\nRegistro D: ");
   lee_imprime(0x0D);
-  print("\n"); 
+  printf("\n"); 
 
   /*Retirar permisos */
   if (ioperm(P, 2, 0)) {
