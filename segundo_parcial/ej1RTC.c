@@ -20,13 +20,13 @@ unsigned char in (unsigned char reg){
 /* Esta funcion recibe como argumente un numero de regsitro, lee el valor de ese registro
 y lo imprime por pantalla como hexadecimal*/
 void lee_imprime (unsigned char reg){
-  if (reg < 0x0A){
-    printf("Entró al condicional");
-  } else {
-    printf("No entró");
-  }
-}
+  unsigned char valor; 
 
+  outb (reg, P);
+  valor = inb(P + 1);
+  printf("%02x\n", valor); 
+}
+  
 
 int main(){
   unsigned char registro; 
@@ -45,10 +45,10 @@ int main(){
   lee_imprime(0x07);
   lee_imprime(0x08);
   lee_imprime(0x09);
-  lee_imprime(0x0A);
-  lee_imprime(0x0B);
-  lee_imprime(0x0C);
-  lee_imprime(0x0D);
+  //lee_imprime(0x0A);
+  //lee_imprime(0x0B);
+  //lee_imprime(0x0C);
+  //lee_imprime(0x0D);
 
   /*Retirar permisos */
   if (ioperm(P, 2, 0)) {
