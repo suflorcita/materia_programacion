@@ -76,7 +76,7 @@ void mostrar_tabla(){
          "         Registro D"
    };
 
-   primeras_cifras_anio = in(0x32); 
+   //primeras_cifras_anio = in(0x32); 
 
    printf("-----------------------------------------------------\n"); 
    printf("| \tNUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN   |\n"); 
@@ -90,7 +90,7 @@ void mostrar_tabla(){
       printf("| %02X | %s\n",lee_reg, descripcion[i]);  
    }
 
-   printf("|    0x32   |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
+   //printf("|    0x32   |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
    
 }
