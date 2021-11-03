@@ -56,20 +56,20 @@ void mostrar_tabla(){
    printf("| NUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN   |\n"); 
    printf("|  REGISTRO | BINARIO |HEXADECIMAL|                 |\n"); 
    printf("-----------------------------------------------------\n");
-   printf("|    0x00   |         |%02x       |          Segundo|\n", segundos);
-   printf("|    0x01   |         |%02x       |   Segundo Alarma|\n", segundos_alarma);
-   printf("|    0x02   |         |%02x       |           Minuto|\n", minuto);
-   printf("|    0x03   |         |%02x       |   Minuto Alarma |\n", minuto_alarma);
-   printf("|    0x04   |         |%02x       |             Hora|\n", hora);
-   printf("|    0x05   |         |%02x       |      Hora Alarma|\n",hora_alarma);
-   printf("|    0x06   |         |%02x       | Dia de la semana|\n", dia_semana);
-   printf("|    0x07   |         |%02x       |      Dia del mes|\n", dia_mes);
-   printf("|    0x08   |         |%02x       |             Anio|\n", mes);
-   printf("|    0x09   |         |%02x       |              Mes|\n", anio);
-   printf("|    0x0A   |         |%02x       |       Registro A|\n", reg_A);
-   printf("|    0x0B   |         |%02x       |       Registro B|\n", reg_B);
-   printf("|    0x0C   |         |%02x       |       Registro C|\n", reg_C);
-   printf("|    0x0D   |         |%02x       |       Registro D|\n", reg_D);
+   printf("|    0x00   |         |0x%02x       |          Segundo|\n", segundos);
+   printf("|    0x01   |         |0x%02x       |   Segundo Alarma|\n", segundos_alarma);
+   printf("|    0x02   |         |0x%02x       |           Minuto|\n", minuto);
+   printf("|    0x03   |         |0x%02x       |   Minuto Alarma |\n", minuto_alarma);
+   printf("|    0x04   |         |0x%02x       |             Hora|\n", hora);
+   printf("|    0x05   |         |0x%02x       |      Hora Alarma|\n",hora_alarma);
+   printf("|    0x06   |         |0x%02x       | Dia de la semana|\n", dia_semana);
+   printf("|    0x07   |         |0x%02x       |      Dia del mes|\n", dia_mes);
+   printf("|    0x08   |         |0x%02x       |             Anio|\n", mes);
+   printf("|    0x09   |         |0x%02x       |              Mes|\n", anio);
+   printf("|    0x0A   |         |0x%02x       |       Registro A|\n", reg_A);
+   printf("|    0x0B   |         |0x%02x       |       Registro B|\n", reg_B);
+   printf("|    0x0C   |         |0x%02x       |       Registro C|\n", reg_C);
+   printf("|    0x0D   |         |0x%02x       |       Registro D|\n", reg_D);
    printf("-----------------------------------------------------\n");
    
 }
