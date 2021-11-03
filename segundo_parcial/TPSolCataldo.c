@@ -56,7 +56,6 @@ void chequea_regA(){
 
 
 
-
 void mostrar_tabla(){
    unsigned char lee_reg, primeras_cifras_anio; 
    char *descripcion[] = {
@@ -79,10 +78,10 @@ void mostrar_tabla(){
 
    primeras_cifras_anio = in(0x32); 
 
-   printf("--------------------------------------------------\n"); 
-   printf("| NUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN|\n"); 
-   printf("|  REGISTRO | BINARIO |HEXADECIMAL|              |\n"); 
-   printf("--------------------------------------------------\n");
+   printf("------------------------------------------------------\n"); 
+   printf("| NUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN    |\n"); 
+   printf("|  REGISTRO | BINARIO |HEXADECIMAL|                  |\n"); 
+   printf("------------------------------------------------------\n");
    
 
    for(int i = 0; i < 13; i++){
@@ -90,10 +89,10 @@ void mostrar_tabla(){
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
       int_to_bin(lee_reg); 
-      printf("| 0x%02X     | %s|\n",lee_reg, descripcion[i]);  
+      printf("| 0x%02X      | %s|\n",lee_reg, descripcion[i]);  
    }
            
-   printf("|0x32       |        |0x%02x  |Anio(primeras cifras)|\n", primeras_cifras_anio);
+   printf("|0x32       |        |0x%02x     |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
 
 
@@ -101,16 +100,17 @@ void mostrar_tabla(){
    
 }
 
-int imprime_menu () {
-   int op;
+void mostrar_configurar_alarma(){
+   unsigned char hora, minutos, segundos; 
+   chequea_regA();
 
-   printf ("\n1. MOSTRAR TABLA DE REGISTROS ");
-   printf ("\n2. MOSTRAR Y CONFIGURAR ALARMA");
-   printf ("\n3. LEER Y MOSTRAR DATOS DE UN REGISTRO INGRESADO POR TECLADO");
-   printf ("\n4. SALIR ");
-   printf("\nSeleccione una opción: ");
-   scanf ("%d", &op);
-   return op;
+   hora = in(0x05); 
+   minutos = in(0x03); 
+   segundos = in(0x01); 
+   printf("La hora de la alarma es: %02X:%02X:%02X", hora, minutos, segundos); 
+
+
+   return; 
 }
 
 void lee_registro(){
@@ -132,6 +132,22 @@ void lee_registro(){
 
    return; 
 }
+
+
+
+int imprime_menu () {
+   int op;
+
+   printf ("\n1. MOSTRAR TABLA DE REGISTROS ");
+   printf ("\n2. MOSTRAR Y CONFIGURAR ALARMA");
+   printf ("\n3. LEER Y MOSTRAR DATOS DE UN REGISTRO INGRESADO POR TECLADO");
+   printf ("\n4. SALIR ");
+   printf("\nSeleccione una opción: ");
+   scanf ("%d", &op);
+   return op;
+}
+
+
 
 
 /* Programa principal */
