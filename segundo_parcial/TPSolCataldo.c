@@ -66,8 +66,8 @@ void mostrar_tabla(){
    printf("|    0x05   |         |0x%02x       |          Hora Alarma|\n",hora_alarma);
    printf("|    0x06   |         |0x%02x       |     Dia de la semana|\n", dia_semana);
    printf("|    0x07   |         |0x%02x       |          Dia del mes|\n", dia_mes);
-   printf("|    0x08   |         |0x%02x       | Anio(ultimas cifras)|\n", mes);
-   printf("|    0x09   |         |0x%02x       |                  Mes|\n", anio);
+   printf("|    0x08   |         |0x%02x       |                  Mes|\n", mes);
+   printf("|    0x09   |         |0x%02x       | Anio(ultimas cifras)|\n", anio);
    printf("|    0x0A   |         |0x%02x       |           Registro A|\n", reg_A);
    printf("|    0x0B   |         |0x%02x       |           Registro B|\n", reg_B);
    printf("|    0x0C   |         |0x%02x       |           Registro C|\n", reg_C);
