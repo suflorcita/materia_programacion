@@ -59,7 +59,7 @@ void chequea_regA(){
 
 void mostrar_tabla(){
    unsigned char lee_reg, primeras_cifras_anio; 
-   char descripciones[2] = {"segundos", "segundos_alarma"};
+   //char descripciones[2] = {"segundos", "segundos_alarma"};
    primeras_cifras_anio = in(0x32); 
 
    printf("-----------------------------------------------------\n"); 
