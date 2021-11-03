@@ -107,6 +107,7 @@ int main() {
       op = imprime_menu();
       switch (op) {
          case 1:
+         mostrar_tabla(); 
             break;
          case 2:
             break;
