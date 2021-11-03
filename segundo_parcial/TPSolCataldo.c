@@ -75,7 +75,7 @@ void mostrar_tabla(){
          "         Registro C",
          "         Registro D"
    };
-   char c; 
+
 
    primeras_cifras_anio = in(0x32); 
 
@@ -98,8 +98,7 @@ void mostrar_tabla(){
 
 
 
-   printf("Presione cualquier caracter para continuar: ");
-   c = getchar();
+   
 }
 
 int imprime_menu () {
@@ -138,6 +137,7 @@ void lee_registro(){
 /* Programa principal */
 int main() {
    int op;
+   char c; 
 
    printf("TP Programación\n");
    printf("Alumno: Cataldo Sol Ayelen\n");
@@ -156,7 +156,9 @@ int main() {
       op = imprime_menu();
       switch (op) {
          case 1:
-         mostrar_tabla(); 
+         mostrar_tabla();
+         printf("Presione cualquier caracter para continuar: ");
+         c = getchar(); 
             break;
          case 2:
             break;
