@@ -75,6 +75,7 @@ void mostrar_tabla(){
          "         Registro C",
          "         Registro D"
    };
+   char caracter; 
 
    primeras_cifras_anio = in(0x32); 
 
@@ -98,7 +99,7 @@ void mostrar_tabla(){
 
 
    puts("Presione enter para continuar");
-   getchar();
+   caracter = getchar();
 }
 
 int imprime_menu () {
