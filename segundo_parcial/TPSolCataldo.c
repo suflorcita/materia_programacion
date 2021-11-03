@@ -79,7 +79,7 @@ void mostrar_tabla(){
 
    primeras_cifras_anio = in(0x32); 
 
-   printf("---------------------------------------------------\n"); 
+   printf("--------------------------------------------------\n"); 
    printf("| NUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN|\n"); 
    printf("|  REGISTRO | BINARIO |HEXADECIMAL|              |\n"); 
    printf("--------------------------------------------------\n");
@@ -92,8 +92,8 @@ void mostrar_tabla(){
       int_to_bin(lee_reg); 
       printf("| 00x%02X     | %s|\n",lee_reg, descripcion[i]);  
    }
-
-   printf("|0x32   |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
+           
+   printf("|0x32       |         |0x%02x  |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
 
 
