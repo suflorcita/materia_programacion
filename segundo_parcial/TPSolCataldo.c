@@ -59,7 +59,23 @@ void chequea_regA(){
 
 void mostrar_tabla(){
    unsigned char lee_reg, primeras_cifras_anio; 
-   //char descripciones[2] = {"segundos", "segundos_alarma"};
+   char *descripcion[] = {
+         "            Segundo",
+         "     Segundo Alarma",
+         "             Minuto",
+         "      Minuto Alarma",
+         "               Hora",
+         "        Hora Alarma",
+         "   Dia de la semana",
+         "        Dia del mes",
+         "                Mes",
+         "               Anio",
+         "         Registro A",
+         "         Registro B",
+         "         Registro C",
+         "         Registro D"
+   };
+
    primeras_cifras_anio = in(0x32); 
 
    printf("-----------------------------------------------------\n"); 
@@ -71,7 +87,7 @@ void mostrar_tabla(){
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
       int_to_bin(lee_reg); 
-      printf("| %02X |\n",lee_reg); 
+      printf("| %02X | %s\n",lee_reg, descripcion[i]);  
    }
 
    printf("|    0x32   |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
