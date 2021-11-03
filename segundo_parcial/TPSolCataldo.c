@@ -85,7 +85,7 @@ void mostrar_tabla(){
    
 
    for(int i = 0; i < 13; i++){
-      printf("|\t0x%02X     |\t", i);
+      printf("|\t0x%02X      |", i);
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
       int_to_bin(lee_reg); 
