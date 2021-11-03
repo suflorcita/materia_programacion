@@ -18,66 +18,68 @@ Al iniciar el programa, en líneas separadas y por única vez, muestre por panta
 #define P 0x70 /* RTC */
 
 unsigned char in (unsigned char reg){
-/* Esta funcion que lee un byte del registro del RTC cuyo nro se recibe */ 
+/* Esta funcion lee un byte del registro del RTC cuyo nro se recibe */ 
   outb (reg, P);
   return inb(P + 1);
 }
 
 
+void  int_to_bin(unsigned char valor){
+/*Función que muestra el valor en binario*/
+   unsigned char binary[8]; 
+
+   //0x01 -> mascara para ver si 
+   for(int i = 0; i < 8; i++){
+      if(valor & 0x01 != 0){
+         binary[i] = 1; 
+      } else {
+         binary[i] = 0; 
+      }
+      valor = valor >> 1; // corre un bit a la derecha 
+   }
+
+   for(int i = 7; i >= 0; i--){
+      printf("%d", binary[i]); 
+   }
+
+   printf(" "); 
+   return; 
+}
+   
+
+void chequea_regA(){
+   unsigned char reg_A; 
+   reg_A = in (0x0A);
+   if ((reg_A  & 0x80) != 0) //Verifica el bit 7 del reg_a (UIP)
+      usleep (1984); //Esperar lo que dura la actualiz. en el peor caso (1984us)
+}
+
+
+
 
 void mostrar_tabla(){
-   unsigned char segundos, segundos_alarma, minuto, minuto_alarma, hora_alarma, hora,
-   dia_semana, dia_mes, anio, mes, reg_A, reg_B, reg_C, reg_D, primeras_cifras_anio; 
-
-   
-   reg_A = in (0x0A);
-   if ((reg_A  & 0x80) != 0) //Verif. bit 7 (UIP). Ojo prioridades operadores
-      usleep (1984); //Esperar lo que dura la actualiz. en el peor caso (1984us)
-
-
-   segundos = in(0x00);
-   segundos_alarma = in(0x01); 
-   minuto = in(0x02); 
-   minuto_alarma = in(0x03); 
-   hora = in(0x04); 
-   hora_alarma = in(0x05); 
-   dia_semana = in(0x06); 
-   dia_mes = in(0x07); 
-   mes = in(0x08); 
-   anio = in(0x09); 
-
-   reg_B = in(0x0B); 
-   reg_C = in(0x0C); 
-   reg_D = in(0x0D); 
+   unsigned char lee_reg, primeras_cifras_anio; 
 
    primeras_cifras_anio = in(0x32); 
 
-
-
    printf("-----------------------------------------------------\n"); 
-   printf("| NUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN   |\n"); 
-   printf("|  REGISTRO | BINARIO |HEXADECIMAL|                 |\n"); 
+   printf("| \tNUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN   |\n"); 
+   printf("| \t REGISTRO | BINARIO |HEXADECIMAL|                 |\n"); 
    printf("-----------------------------------------------------\n");
-   printf("|    0x00   |         |0x%02x       |              Segundo|\n", segundos);
-   printf("|    0x01   |         |0x%02x       |       Segundo Alarma|\n", segundos_alarma);
-   printf("|    0x02   |         |0x%02x       |               Minuto|\n", minuto);
-   printf("|    0x03   |         |0x%02x       |       Minuto Alarma |\n", minuto_alarma);
-   printf("|    0x04   |         |0x%02x       |                 Hora|\n", hora);
-   printf("|    0x05   |         |0x%02x       |          Hora Alarma|\n",hora_alarma);
-   printf("|    0x06   |         |0x%02x       |     Dia de la semana|\n", dia_semana);
-   printf("|    0x07   |         |0x%02x       |          Dia del mes|\n", dia_mes);
-   printf("|    0x08   |         |0x%02x       |                  Mes|\n", mes);
-   printf("|    0x09   |         |0x%02x       | Anio(ultimas cifras)|\n", anio);
-   printf("|    0x0A   |         |0x%02x       |           Registro A|\n", reg_A);
-   printf("|    0x0B   |         |0x%02x       |           Registro B|\n", reg_B);
-   printf("|    0x0C   |         |0x%02x       |           Registro C|\n", reg_C);
-   printf("|    0x0D   |         |0x%02x       |           Registro D|\n", reg_D);
-   printf("|    0x     |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
+   for(int i = 0; i < 16; i++){
+      printf("|\t0x%02X|\t", i);
+      chequea_regA(); 
+      lee_reg = in(0x00 + i); 
+      int_to_bin(lee_reg); 
+      printf("| %02X |",lee_reg); 
+   }
+
+   printf("|    0x32   |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
    
 }
 
-int imprime_menu (void) {
+int imprime_menu () {
    int op;
 
    printf ("\n1. MOSTRAR TABLA DE REGISTROS ");
@@ -89,6 +91,24 @@ int imprime_menu (void) {
    return op;
 }
 
+void lee_registro(){
+   unsigned char registro, lectura_reg; 
+
+   printf("Ingrese el número de un registro: "); 
+   scanf("%hhx", &registro); 
+
+   if(registro < 11)
+      chequea_regA(); 
+
+   lectura_reg = in(0x00 + registro); 
+
+   printf("El valor en binario es (tal cual se leyó) es: ");  
+   int_to_bin(lectura_reg); 
+
+
+   return; 
+}
+
 
 /* Programa principal */
 int main() {
@@ -98,6 +118,7 @@ int main() {
    printf("Alumno: Cataldo Sol Ayelen\n");
    printf("Materia: Programación\n");
    printf("Segundo cuatrimestre 2021 \n");
+   printf("Tiempo en horas: 20hs");
 
   /* Dar permisos a los ports 70 y 71 */
   if (ioperm(P, 2, 1)) {
@@ -134,3 +155,48 @@ int main() {
 
     return 0; 
 }
+
+
+
+
+
+   /*
+
+   reg_A = in (0x0A);
+   if ((reg_A  & 0x80) != 0) //Verifica el bit 7 del reg_a (UIP)
+      usleep (1984); //Esperar lo que dura la actualiz. en el peor caso (1984us)
+
+
+
+
+   printf("|    0x00   |         |0x%02x       |              Segundo|\n", segundos);
+   printf("|    0x01   |         |0x%02x       |       Segundo Alarma|\n", segundos_alarma);
+   printf("|    0x02   |         |0x%02x       |               Minuto|\n", minuto);
+   printf("|    0x03   |         |0x%02x       |       Minuto Alarma |\n", minuto_alarma);
+   printf("|    0x04   |         |0x%02x       |                 Hora|\n", hora);
+   printf("|    0x05   |         |0x%02x       |          Hora Alarma|\n",hora_alarma);
+   printf("|    0x06   |         |0x%02x       |     Dia de la semana|\n", dia_semana);
+   printf("|    0x07   |         |0x%02x       |          Dia del mes|\n", dia_mes);
+   printf("|    0x08   |         |0x%02x       |                  Mes|\n", mes);
+   printf("|    0x09   |         |0x%02x       | Anio(ultimas cifras)|\n", anio);
+   printf("|    0x0A   |         |0x%02x       |           Registro A|\n", reg_A);
+   printf("|    0x0B   |         |0x%02x       |           Registro B|\n", reg_B);
+   printf("|    0x0C   |         |0x%02x       |           Registro C|\n", reg_C);
+   printf("|    0x0D   |         |0x%02x       |           Registro D|\n", reg_D);
+
+      segundos = in(0x00);
+   segundos_alarma = in(0x01); 
+   minuto = in(0x02); 
+   minuto_alarma = in(0x03); 
+   hora = in(0x04); 
+   hora_alarma = in(0x05); 
+   dia_semana = in(0x06); 
+   dia_mes = in(0x07); 
+   mes = in(0x08); 
+   anio = in(0x09); 
+
+   reg_B = in(0x0B); 
+   reg_C = in(0x0C); 
+   reg_D = in(0x0D); 
+
+   primeras_cifras_anio = in(0x32); */
