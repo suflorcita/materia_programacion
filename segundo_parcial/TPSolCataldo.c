@@ -177,6 +177,7 @@ int main() {
          c = getchar(); 
             break;
          case 2:
+         mostrar_configurar_alarma(); 
             break;
          case 3:
          lee_registro(); 
