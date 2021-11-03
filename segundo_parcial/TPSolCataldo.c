@@ -76,13 +76,15 @@ void mostrar_tabla(){
          "         Registro D"
    };
 
-   //primeras_cifras_anio = in(0x32); 
+   primeras_cifras_anio = in(0x32); 
 
    printf("-----------------------------------------------------\n"); 
    printf("| \tNUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN   |\n"); 
    printf("| \t REGISTRO | BINARIO |HEXADECIMAL|                 |\n"); 
    printf("-----------------------------------------------------\n");
-   for(int i = 0; i < 16; i++){
+   
+
+   for(int i = 0; i < 13; i++){
       printf("|\t0x%02X|\t", i);
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
@@ -90,7 +92,7 @@ void mostrar_tabla(){
       printf("| %02X | %s\n",lee_reg, descripcion[i]);  
    }
 
-   //printf("|    0x32   |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
+   printf("|    0x32   |         |0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
    
 }
