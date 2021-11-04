@@ -142,14 +142,25 @@ void mostrar_tabla(){
 }
 
 void mostrar_configurar_alarma(){
-   unsigned char hora, minutos, segundos; 
+/*Muestra el horario de la alarma y lo configura*/
+   unsigned char hora_alarma, minutos_alarma, segundos_alarma;
+   int segundos;  
    chequea_regA();
 
-   hora = in(0x05); 
-   minutos = in(0x03); 
-   segundos = in(0x01); 
-   printf("La hora de la alarma es: %02X:%02X:%02X", hora, minutos, segundos);
+   //Leo y muestro la hora, minutos y segundos de la alarma
+   hora_alarma = in(0x05); 
+   minutos_alarma = in(0x03); 
+   segundos_alarma = in(0x01); 
+   printf("La hora de la alarma es: %02X:%02X:%02X", hora_alarma, minutos_alarma, segundos_alarma);
 
+   //Configuro alarma para los proximos cinco segundos 
+   
+   // Leo los segundos actuales y los paso a decimal para hacer las cuentas
+   chequea_regA();
+
+   segundos = BCD_decimal(in(0x00)); 
+
+   printf("%d %x", segundos, in(0x00) );  //deberia dar lo mismo 
 
 
    return; 
@@ -168,11 +179,7 @@ void lee_registro(){
    lectura_reg = in(0x00 + registro); 
 
    printf("El valor en binario es (tal cual se leyó) es: ");  
-   int_to_bin(lectura_reg); 
-
-   fflush(stdin);
-   printf("Presione cualquier numero o letra para continuar: ");
-   scanf("%c", &tecla); 
+   int_to_bin(lectura_reg);
 
    return; 
 }
@@ -217,10 +224,6 @@ int main() {
       switch (op) {
          case 1:
          mostrar_tabla();
-         fflush(stdin);
-         printf("Presione cualquier numero o letra para continuar:\n");
-         scanf("%c", &tecla); 
-
             break;
          case 2:
          mostrar_configurar_alarma(); 
