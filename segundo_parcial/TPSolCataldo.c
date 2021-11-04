@@ -160,7 +160,7 @@ void mostrar_configurar_alarma(){
 
    segundos = BCD_decimal(in(0x00)); 
 
-   printf("%d\n %x\n", segundos, in(0x00) +2 );  //deberia dar lo mismo 
+   printf("%d\n %x\n", segundos + 2, in(0x00) + 2);  //deberia dar lo mismo 
 
 
    return; 
