@@ -131,12 +131,12 @@ void mostrar_tabla(){
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
       int_to_bin(lee_reg); 
-      printf("| 0x%02X      | %s|\n",lee_reg, descripcion[i]);  
+      printf("| 0x%02X     | %s|\n",lee_reg, descripcion[i]);  
    }
            
    printf("|0x32       |"); 
    int_to_bin(primeras_cifras_anio); 
-   printf(" |0x%02x     |Anio(primeras cifras)|\n", primeras_cifras_anio);
+   printf("|0x%02x     |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
 
    fflush(stdin);
