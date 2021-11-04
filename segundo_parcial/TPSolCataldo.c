@@ -24,11 +24,18 @@ unsigned char in (unsigned char reg){
 }
 
 
+void out (unsigned char valor, unsigned char reg){
+/* Función que recibe un registro y un valor y setea ese valor en el registro*/
+  outb (reg, P);
+  outb (valor, P + 1);
+  }
+
+
+
 void  int_to_bin(unsigned char valor){
-/*Función que muestra el valor en binario*/
+/*Función recibe numero y muestra su valor en binario*/
    unsigned char binary[8]; 
 
-   //0x01 -> mascara para ver si 
    for(int i = 0; i < 8; i++){
       if(valor & 0x01 != 0){
          binary[i] = 1; 
@@ -44,6 +51,40 @@ void  int_to_bin(unsigned char valor){
 
    printf(" "); 
    return; 
+}
+
+
+int BCD_decimal(unsigned char valor){
+/*Función que recibe un número en BCD y lo pasa a decimal*/
+   int dec1 = 0, dec2 = 0, dec = 0, j = 1;  
+   
+   for(int i = 0; i < 4; i++){
+   //Paso a decimal los primeros 4 bits (los 4 menos significativos)
+      if(valor & 0x01 != 0){         
+         dec1 += j;
+      } 
+
+      
+      valor = valor >> 1; 
+      j *= 2; 
+
+   } 
+
+   j = 1;  
+   
+   for(int i = 0; i < 4; i++){
+   //Paso a decimal los ultimos 4 bits (los 4 mas significativos)
+      if(valor & 0x01 != 0){
+         dec2 += j;  
+      } 
+      valor = valor >> 1; 
+      j *= 2;      
+   } 
+
+   dec = dec1 + dec2 * 10; 
+
+   return dec; 
+
 }
    
 
@@ -115,6 +156,7 @@ void mostrar_configurar_alarma(){
 
 void lee_registro(){
    unsigned char registro, lectura_reg; 
+   char tecla; 
 
    printf("Ingrese el número de un registro: "); 
    scanf("%hhx", &registro); 
@@ -127,8 +169,8 @@ void lee_registro(){
    printf("El valor en binario es (tal cual se leyó) es: ");  
    int_to_bin(lectura_reg); 
 
-   puts("Presione enter para continuar");
-   getchar();
+   printf("Presione cualquier numero o letra para continuar\n");
+   scanf("%c", &tecla); 
 
    return; 
 }
