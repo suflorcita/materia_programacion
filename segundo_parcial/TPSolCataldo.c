@@ -95,7 +95,17 @@ void chequea_regA(){
       usleep (1984); //Esperar lo que dura la actualiz. en el peor caso (1984us)
 }
 
+void lee_alarma (){
+/*Función que lee los registros correspondientes a la alarma 
+y muestra la hora minutos y segundos de la alarma en formato HH:MM:SS.*/
+   unsigned char hora_alarma, minutos_alarma, segundos_alarma; 
 
+   hora_alarma = in(0x05); 
+   minutos_alarma = in(0x03); 
+   segundos_alarma = in(0x01); 
+   
+   printf("La hora de la alarma es: %02X:%02X:%02X\n", hora_alarma, minutos_alarma, segundos_alarma);
+}
 
 void mostrar_tabla(){
    unsigned char lee_reg, primeras_cifras_anio; 
@@ -143,24 +153,66 @@ void mostrar_tabla(){
 
 void mostrar_configurar_alarma(){
 /*Muestra el horario de la alarma y lo configura*/
-   unsigned char hora_alarma, minutos_alarma, segundos_alarma;
-   int segundos;  
-   chequea_regA();
-
-   //Leo y muestro la hora, minutos y segundos de la alarma
-   hora_alarma = in(0x05); 
-   minutos_alarma = in(0x03); 
-   segundos_alarma = in(0x01); 
-   printf("La hora de la alarma es: %02X:%02X:%02X", hora_alarma, minutos_alarma, segundos_alarma);
-
-   //Configuro alarma para los proximos cinco segundos 
+   unsigned char reg_b, reg_c;
+   int segundos, minutos, horas;  
    
+
+   chequea_regA();
+   lee_alarma();
+   //Configuro alarma para los proximos cinco segundos  
    // Leo los segundos actuales y los paso a decimal para hacer las cuentas
    chequea_regA();
+   segundos = BCD_decimal(in(0x00));
+   //También leo minutos y la paso a decimal
+   minutos = BCD_decimal(in(0x02));
+   horas = BCD_decimal(in(0x04)); 
 
-   segundos = BCD_decimal(in(0x00)); 
+   reg_b = in(0x0B); 
+   reg_b = reg_b | 0x80; //Habilito que se puedan hacer modificaciones poniendo en 1 el bit SET 
 
-   printf("%d\n %x\n", segundos + 2, in(0x00) + 2);  //deberia dar lo mismo 
+   if(segundos < 55){
+       out (segundos + 5, 0x01);
+   } else{
+      out((segundos + 5) % 10, 0x01); 
+      if(minutos != 59){
+         out(minutos + 1, 0x03);  
+      } else {
+         out(00, 0x03); 
+         if (horas != 23){
+            out(horas + 1, 0x05); 
+         } else{
+            out(00, 0x05); 
+         }
+      }
+   } 
+
+   reg_b = reg_b & 0x00; //Deshabilito las modificaciones en el bit SET
+
+
+   reg_c = in (0x0C); /* Borro flags anteriores */
+   
+   /* Hago polling del reg C */
+   printf ("Espero las alarmas ...\n");
+   for (int i = 0; i < 20; i++){ /* Espera 10 segundos en total */
+    reg_c = in (0x0C);
+    
+    if (reg_c & 0x20){  // Verifico el bit 5
+      printf ("ALARMA: ¡beep! ¡beep!\n");
+      usleep(1000000); //Espero 1 segundo 
+      
+      chequea_regA();
+      lee_alarma(); 
+      
+      usleep(1000000); //Espero 1 segundo 
+      break; 
+    }
+       
+
+    usleep(500000);   /* Esperar 500ms */ 
+  }
+
+
+
 
 
    return; 
