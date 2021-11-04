@@ -115,6 +115,7 @@ void mostrar_tabla(){
          "         Registro C",
          "         Registro D"
    };
+   char tecla; 
 
 
    primeras_cifras_anio = in(0x32); 
@@ -136,6 +137,11 @@ void mostrar_tabla(){
    printf("|0x32       |        |0x%02x     |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
 
+   fflush(stdin);
+   printf("Presione cualquier numero o letra para continuar: ");
+   scanf("%c", &tecla); 
+
+
 
 
    
@@ -148,7 +154,8 @@ void mostrar_configurar_alarma(){
    hora = in(0x05); 
    minutos = in(0x03); 
    segundos = in(0x01); 
-   printf("La hora de la alarma es: %02X:%02X:%02X", hora, minutos, segundos); 
+   printf("La hora de la alarma es: %02X:%02X:%02X", hora, minutos, segundos);
+
 
 
    return; 
@@ -169,7 +176,8 @@ void lee_registro(){
    printf("El valor en binario es (tal cual se leyó) es: ");  
    int_to_bin(lectura_reg); 
 
-   printf("Presione cualquier numero o letra para continuar\n");
+   fflush(stdin);
+   printf("Presione cualquier numero o letra para continuar: ");
    scanf("%c", &tecla); 
 
    return; 
