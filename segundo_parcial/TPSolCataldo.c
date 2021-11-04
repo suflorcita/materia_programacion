@@ -172,6 +172,7 @@ void mostrar_configurar_alarma(){
 
    if(segundos < 55){
        out (segundos + 5, 0x01);
+       printf("jejej");
    } else{
       out((segundos + 5) % 10, 0x01); 
       if(minutos != 59){
