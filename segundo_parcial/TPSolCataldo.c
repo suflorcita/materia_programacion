@@ -127,18 +127,20 @@ void mostrar_tabla(){
    
 
    for(int i = 0; i < 13; i++){
-      printf("|0x%02X      |", i);
+      printf("|0x%02X       |", i);
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
       int_to_bin(lee_reg); 
       printf("| 0x%02X      | %s|\n",lee_reg, descripcion[i]);  
    }
            
-   printf("|0x32       |        |0x%02x     |Anio(primeras cifras)|\n", primeras_cifras_anio);
+   printf("|0x32       |"); 
+   int_to_bin(primeras_cifras_anio); 
+   printf(" |0x%02x     |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("-----------------------------------------------------\n");
 
    fflush(stdin);
-   printf("Presione cualquier numero o letra para continuar: ");
+   printf("Presione cualquier numero o letra para continuar:\n");
    scanf("%c", &tecla); 
 
 
@@ -223,8 +225,6 @@ int main() {
       switch (op) {
          case 1:
          mostrar_tabla();
-         printf("Presione cualquier caracter para continuar: ");
-         c = getchar(); 
             break;
          case 2:
          mostrar_configurar_alarma(); 
