@@ -86,7 +86,40 @@ int BCD_decimal(unsigned char valor){
    return dec; 
 
 }
-   
+
+
+unsigned char dec_to_BCD(int number){
+/*Función que pasa un numero de dos cifras a BCD*/
+  
+  unsigned char BCD = 0x00, mask = 0X01; 
+  int dec1, dec2, resto; 
+
+
+  dec1 = number % 10;  //Cifra menos signficativa
+  dec2 = number / 10; 
+
+  while(dec1 > 0){  
+    resto = dec1 % 2;
+    dec1 = dec1 / 2; 
+
+    BCD = BCD| (resto * mask); 
+    mask = mask * 2;
+  }
+
+
+
+  mask = 0x10; // 5to bit 
+  while(dec2 > 0){  
+    resto = dec2 % 2;
+    dec2 = dec2 / 2; 
+
+    BCD = BCD| (resto * mask); 
+    mask = mask * 2;
+  }
+
+  return BCD; 
+}
+
 
 void chequea_regA(){
    unsigned char reg_A; 
@@ -168,26 +201,23 @@ void mostrar_configurar_alarma(){
    horas = BCD_decimal(in(0x04)); 
 
    reg_b = in(0x0B); 
-   reg_b = reg_b | 0x80; //Habilito que se puedan hacer modificaciones poniendo en 1 el bit SET 
 
    if(segundos < 55){
-       out (segundos + 5, 0x01);
+       out (dec_to_BCD(segundos + 5), 0x01);
        printf("jejej");
    } else{
-      out((segundos + 5) % 10, 0x01); 
+      out(dec_to_BCD((segundos + 5) % 10), 0x01); 
       if(minutos != 59){
-         out(minutos + 1, 0x03);  
+         out(dec_to_BCD(minutos + 1), 0x03);  
       } else {
          out(00, 0x03); 
          if (horas != 23){
-            out(horas + 1, 0x05); 
+            out(dec_to_BCD(horas + 1), 0x05); 
          } else{
             out(00, 0x05); 
          }
       }
    } 
-
-   reg_b = reg_b & 0x00; //Deshabilito las modificaciones en el bit SET
 
 
    reg_c = in (0x0C); /* Borro flags anteriores */
