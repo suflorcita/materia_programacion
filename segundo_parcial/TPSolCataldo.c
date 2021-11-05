@@ -205,7 +205,6 @@ void mostrar_configurar_alarma(){
 
    if(segundos < 55){
        out (dec_to_BCD(segundos + 5), 0x01);
-       printf("%x", dec_to_BCD(segundos + 5));
    } else{
       out(dec_to_BCD((segundos + 5) % 10), 0x01); 
       if(minutos != 59){
