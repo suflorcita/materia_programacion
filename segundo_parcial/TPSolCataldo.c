@@ -196,6 +196,7 @@ void mostrar_configurar_alarma(){
    // Leo los segundos actuales y los paso a decimal para hacer las cuentas
    chequea_regA();
    segundos = BCD_decimal(in(0x00));
+   printf("%d, %x", segundos, in(0x00)); 
    //También leo minutos y la paso a decimal
    minutos = BCD_decimal(in(0x02));
    horas = BCD_decimal(in(0x04)); 
