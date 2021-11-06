@@ -221,8 +221,8 @@ void mostrar_configurar_alarma(){
    horas = BCD_decimal(in(0x04)); 
 
   
-   chequea_regA(); 
-
+   chequea_regA();   
+   
    //Seteo los valores en el reloj de la alarma 
    if(segundos < 55){
        out(dec_to_BCD(segundos + 5), 0x01);
@@ -240,23 +240,18 @@ void mostrar_configurar_alarma(){
             out(00, 0x05); 
          }
       }
-   } 
-
-   reg_b=in(0x0B); //Leo el valor en el registro B
-   reg_b = reg_b | 0xA0; //Habilito las interrupciones por alarma y el bit SET
-   out(reg_b, 0x0B);  
+   }  
    
-   lee_alarma(); 
-   lee_hora();  //me sirven para chequear si voy bien
+   //lee_alarma(); 
+   //lee_hora();  //me sirven para chequear si voy bien
 
    reg_c = in(0x0C); // Borro flags anteriores
-   
+
    /* Hago polling del reg C */
    printf ("\nEspero la alarma..\n");
    for (i = 0; i < 20; i++){ /* Espera 10 segundos en total */
-    reg_c = in(0x0C);
-   
-
+    reg_c = in(0x0C); 
+    
     if (reg_c & 0x20){  // Verifico el bit 5
       printf ("ALARMA: ¡beep! ¡beep!\n");
       usleep(1000000); //Espero 1 segundo 
@@ -271,9 +266,7 @@ void mostrar_configurar_alarma(){
 
     usleep(500000);   /* Esperar 100ms */ 
   } 
-   reg_b = reg_b & 0x7F; //Deshabilito el bit SET
-   out(reg_b, 0x0B);  
-   
+
    return; 
 }
 
@@ -282,7 +275,8 @@ void lee_registro(){
    char tecla; 
 
    printf("Ingrese el número de un registro: "); 
-   scanf("%hhx", &registro); 
+   scanf("%hhd", &registro); 
+   printf("%X", registro);
 
    if(registro < 11)
       chequea_regA(); 
