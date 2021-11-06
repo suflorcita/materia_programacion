@@ -35,8 +35,9 @@ void out (unsigned char valor, unsigned char reg){
 void  int_to_bin(unsigned char valor){
 /*Función recibe numero y muestra su valor en binario*/
    unsigned char binary[8]; 
+   int i; 
 
-   for(int i = 0; i < 8; i++){
+   for(i = 0; i < 8; i++){
       if(valor & 0x01 != 0){
          binary[i] = 1; 
       } else {
@@ -56,9 +57,9 @@ void  int_to_bin(unsigned char valor){
 
 int BCD_decimal(unsigned char valor){
 /*Función que recibe un número en BCD y lo pasa a decimal*/
-   int dec1 = 0, dec2 = 0, dec = 0, j = 1;  
+   int i, dec1 = 0, dec2 = 0, dec = 0, j = 1;  
    
-   for(int i = 0; i < 4; i++){
+   for(i = 0; i < 4; i++){
    //Paso a decimal los primeros 4 bits (los 4 menos significativos)
       if(valor & 0x01 != 0){         
          dec1 += j;
@@ -72,7 +73,7 @@ int BCD_decimal(unsigned char valor){
 
    j = 1;  
    
-   for(int i = 0; i < 4; i++){
+   for(i = 0; i < 4; i++){
    //Paso a decimal los ultimos 4 bits (los 4 mas significativos)
       if(valor & 0x01 != 0){
          dec2 += j;  
