@@ -128,6 +128,20 @@ void chequea_regA(){
       usleep (1984); //Esperar lo que dura la actualiz. en el peor caso (1984us)
 }
 
+void lee_hora (){
+/*Función que lee los registros correspondientes a la alarma 
+y muestra la hora minutos y segundos de la alarma en formato HH:MM:SS.*/
+   unsigned char hora_alarma, minutos_alarma, segundos_alarma; 
+
+   hora_alarma = in(0x04); 
+   minutos_alarma = in(0x02); 
+   segundos_alarma = in(0x00); 
+   
+   printf("La hora es: %02X:%02X:%02X\n", hora_alarma, minutos_alarma, segundos_alarma);
+}
+
+
+
 void lee_alarma (){
 /*Función que lee los registros correspondientes a la alarma 
 y muestra la hora minutos y segundos de la alarma en formato HH:MM:SS.*/
@@ -163,30 +177,30 @@ void mostrar_tabla(){
 
    primeras_cifras_anio = in(0x32); 
 
-   printf("------------------------------------------------------\n"); 
-   printf("| NUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN    |\n"); 
-   printf("|  REGISTRO | BINARIO |HEXADECIMAL|                  |\n"); 
-   printf("------------------------------------------------------\n");
+   printf("---------------------------------------------------------\n"); 
+   printf("| NUMERO DE |  VALOR  |   VALOR   |   DESCRIPCIÓN       |\n"); 
+   printf("|  REGISTRO | BINARIO |HEXADECIMAL|                     |\n"); 
+   printf("---------------------------------------------------------\n");
    
 
-   for(int i = 0; i < 13; i++){
+   for(int i = 0; i < 14; i++){
       printf("|0x%02X       |", i);
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
       int_to_bin(lee_reg); 
-      printf("| 0x%02X    | %s|\n",lee_reg, descripcion[i]);  
+      printf("|0x%02X       |  %s|\n",lee_reg, descripcion[i]);  
    }
            
    printf("|0x32       |"); 
    int_to_bin(primeras_cifras_anio); 
-   printf("|0x%02x     |Anio(primeras cifras)|\n", primeras_cifras_anio);
-   printf("-----------------------------------------------------\n");
+   printf("|0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
+   printf("---------------------------------------------------------\n");
    
 }
 
 void mostrar_configurar_alarma(){
 /*Muestra el horario de la alarma y lo configura*/
-   unsigned char reg_b, reg_c;
+   unsigned char reg_c, reg_b;
    int segundos, minutos, horas;  
    
 
@@ -195,16 +209,20 @@ void mostrar_configurar_alarma(){
    //Configuro alarma para los proximos cinco segundos  
    // Leo los segundos actuales y los paso a decimal para hacer las cuentas
    chequea_regA();
-   segundos = BCD_decimal(in(0x00));
-   printf("%d, %x", segundos, in(0x00)); 
-   
+   segundos = BCD_decimal(in(0x00));   
    minutos = BCD_decimal(in(0x02));
    horas = BCD_decimal(in(0x04)); 
 
-   reg_b = in(0x0B); 
+   lee_hora(); 
+
+   reg_b = in(0x0B); //lo copie
+   out(reg_b | 0x20, 0x0B); //lo copie 
+
 
    if(segundos < 55){
-       out (dec_to_BCD(segundos + 5), 0x01);
+       out(dec_to_BCD(segundos + 5), 0x01);
+       out(dec_to_BCD(minutos), 0x03);
+       out(dec_to_BCD(horas), 0x05);
    } else{
       out(dec_to_BCD((segundos + 5) % 10), 0x01); 
       if(minutos != 59){
@@ -219,6 +237,7 @@ void mostrar_configurar_alarma(){
       }
    } 
 
+   lee_alarma(); 
 
    reg_c = in (0x0C); /* Borro flags anteriores */
    
@@ -240,9 +259,7 @@ void mostrar_configurar_alarma(){
        
 
     usleep(500000);   /* Esperar 500ms */ 
-  }
-
-
+  } 
 
 
 
@@ -293,7 +310,7 @@ int main() {
    printf("Alumno: Cataldo Sol Ayelen\n");
    printf("Materia: Programación\n");
    printf("Segundo cuatrimestre 2021 \n");
-   printf("Tiempo en horas: 20hs");
+   printf("Tiempo en horas: 20hs\n");
 
   /* Dar permisos a los ports 70 y 71 */
   if (ioperm(P, 2, 1)) {
