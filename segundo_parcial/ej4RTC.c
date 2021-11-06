@@ -30,12 +30,18 @@ void flags_a(){
          "UIP", 
    };
 
-   printf("Flags registro A\n");
+   printf("\n-------------------Flags registro A---------------\n");
 
    reg_a = in(0X0A);
 
    for(int i = 0; i < 7; i++){
-   	flag =  mask & reg_a; 
+   	
+   	if(mask & reg_a){
+   		flag = 1; 
+   	} else{
+   		flag = 0; 
+   	}
+ 
    	printf("%s : %0X\n", bits[i], flag); 
    	mask = mask * 2; 
    }
@@ -59,10 +65,16 @@ void flags_b(){
    };
 
    reg_b = in(0x0B); 
-   printf("Flags registro B\n");
+   printf("\n-------------------Flags registro B---------------\n");
 
    for(int i = 0; i < 7; i++){
-   	flag =  mask & reg_b; 
+   	
+   	if(mask & reg_b){
+   		flag = 1; 
+   	} else{
+   		flag = 0; 
+   	}
+
    	printf("%s : %0X\n", bits[i], flag); 
    	mask = mask * 2; 
    }
@@ -84,11 +96,17 @@ void flags_c(){
          "IRQF", 
    };
 
-   printf("Flags registro C\n");
+   printf("\n-------------------Flags registro c---------------\n");
 
    reg_c = in(0x0C); 
    for(int i = 0; i < 7; i++){
-   	flag =  mask & reg_c; 
+   	
+   	if(mask & reg_c){
+   		flag = 1; 
+   	} else{
+   		flag = 0; 
+   	}
+
    	printf("%s : %0X\n", bits[i], flag); 
    	mask = mask * 2; 
    }
@@ -111,14 +129,24 @@ void flags_d(){
    };
 
 
-   printf("Flags registro D\n");
+   printf("\n-------------------Flags registro D---------------\n");
    reg_d = in(0x0D); 
 
    for(int i = 0; i < 7; i++){
-   	flag =  mask & reg_d; 
+
+   	if(mask & reg_d){
+   		flag = 1; 
+   	} else{
+   		flag = 0; 
+   	}
+
+
+    
    	printf("%s : %0X\n", bits[i], flag); 
-   	mask = mask * 2; 
+   	mask = mask * 2;
+
    }
+
 
 	return; 
 }

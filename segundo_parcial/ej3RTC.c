@@ -151,7 +151,7 @@ int main(){
     exit(1);
   }
 
-  for(int i = 0; i < 13; i++){
+  for(int i = 0; i < 14; i++){
     printf("%s: ", descripcion[i]); 
     valor = lee_imprime(dec_to_BCD(i)); 
     
