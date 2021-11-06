@@ -46,7 +46,7 @@ void  int_to_bin(unsigned char valor){
       valor = valor >> 1; // corre un bit a la derecha 
    }
 
-   for(int i = 7; i >= 0; i--){
+   for(i = 7; i >= 0; i--){
       printf("%d", binary[i]); 
    }
 
@@ -175,7 +175,7 @@ void mostrar_tabla(){
          "         Registro D"
    };
    char tecla; 
-
+   int i; 
 
    primeras_cifras_anio = in(0x32); 
 
@@ -185,7 +185,7 @@ void mostrar_tabla(){
    printf("---------------------------------------------------------\n");
    
 
-   for(int i = 0; i < 14; i++){
+   for(i= 0; i < 14; i++){
       printf("|0x%02X       |", i);
       chequea_regA(); 
       lee_reg = in(0x00 + i); 
