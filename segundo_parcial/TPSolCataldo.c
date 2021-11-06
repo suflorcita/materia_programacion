@@ -147,8 +147,7 @@ y muestra la hora minutos y segundos de la alarma en formato HH:MM:SS.*/
 void lee_alarma (){
 /*Función que lee los registros correspondientes a la alarma 
 y muestra la hora minutos y segundos de la alarma en formato HH:MM:SS.*/
-   unsigned char hora_alarma, minutos_alarma, segundos_alarma; 
-
+   unsigned char hora_alarma, minutos_alarma, segundos_alarma;
    hora_alarma = in(0x05); 
    minutos_alarma = in(0x03); 
    segundos_alarma = in(0x01); 
@@ -197,13 +196,16 @@ void mostrar_tabla(){
    int_to_bin(primeras_cifras_anio); 
    printf("|0x%02x       |Anio(primeras cifras)|\n", primeras_cifras_anio);
    printf("---------------------------------------------------------\n");
+
    
+   printf("Ingrese un caracter (letra o numero) para continuar: ");
+   scanf("%s", &tecla); 
 }
 
 void mostrar_configurar_alarma(){
 /*Muestra el horario de la alarma y lo configura*/
    unsigned char reg_c, reg_b;
-   int segundos, minutos, horas;  
+   int segundos, minutos, horas, i;  
    
 
    //Muestro la hora de la alarma 
@@ -240,18 +242,21 @@ void mostrar_configurar_alarma(){
    } 
 
    reg_b=in(0x0B); //Leo el valor en el registro B
-   reg_b = reg_b | 0x40; //Habilito las interrupciones por alarma 
+   reg_b = reg_b | 0xA0; //Habilito las interrupciones por alarma y el bit SET
    out(reg_b, 0x0B);  
+   
+   lee_alarma(); 
+   lee_hora();  //me sirven para chequear si voy bien
 
-   reg_c = in(0x0C); /* Borro flags anteriores */
+   reg_c = in(0x0C); // Borro flags anteriores
    
    /* Hago polling del reg C */
-   printf ("\nEspero las alarmas ...\n");
-   for (int i = 0; i < 20; i++){ /* Espera 10 segundos en total */
+   printf ("\nEspero la alarma..\n");
+   for (i = 0; i < 20; i++){ /* Espera 10 segundos en total */
     reg_c = in(0x0C);
    
 
-    if ((reg_c & 0x20) != 0){  // Verifico el bit 5
+    if (reg_c & 0x20){  // Verifico el bit 5
       printf ("ALARMA: ¡beep! ¡beep!\n");
       usleep(1000000); //Espero 1 segundo 
       
@@ -263,9 +268,11 @@ void mostrar_configurar_alarma(){
     }
        
 
-    usleep(500000);   /* Esperar 500ms */ 
+    usleep(500000);   /* Esperar 100ms */ 
   } 
-
+   reg_b = reg_b & 0x7F; //Deshabilito el bit SET
+   out(reg_b, 0x0B);  
+   
    return; 
 }
 
@@ -281,12 +288,15 @@ void lee_registro(){
 
    if(registro < 0x64){
       lectura_reg = in(0x00 + registro); 
-      printf("El valor en binario es (tal cual se leyó) es: ");  
+      printf("\nEl valor en binario es (tal cual se leyó) es: ");  
       int_to_bin(lectura_reg);
+      printf("\n"); 
    } else{
       printf("El registro no existe\n"); 
    }
 
+   printf("\nIngrese un caracter (letra o numero) para continuar: ");
+   scanf("%s", &tecla); 
 
    return; 
 }
@@ -300,7 +310,7 @@ int imprime_menu () {
    printf ("\n2. MOSTRAR Y CONFIGURAR ALARMA");
    printf ("\n3. LEER Y MOSTRAR DATOS DE UN REGISTRO INGRESADO POR TECLADO");
    printf ("\n4. SALIR\n ");
-   printf("\nSeleccione una opción: ");
+   printf("\nSeleccione una opción (numerica unicamente): ");
    scanf ("%d", &op);
    return op;
 }
