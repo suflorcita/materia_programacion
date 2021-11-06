@@ -155,11 +155,12 @@ int main(){
     printf("%s: ", descripcion[i]); 
     valor = lee_imprime(dec_to_BCD(i)); 
     
-    printf("BCD: "); 
+    printf("\nBCD: "); 
     int_to_bin(valor); 
     
-    printf("Binario puro: "); 
+    printf("\nBinario puro: "); 
     int_to_bin(BCD_decimal(valor)); 
+    printf("\n")
   }
 
   /*Retirar permisos */
