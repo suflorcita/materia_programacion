@@ -206,11 +206,12 @@ void mostrar_configurar_alarma(){
    int segundos, minutos, horas;  
    
 
+   //Muestro la hora de la alarma 
    chequea_regA();
    lee_alarma();
    
    //Configuro alarma para los proximos cinco segundos  
-   // Leo los segundos actuales y los paso a decimal para hacer las cuentas
+   //Leo los segundos actuales y los paso a decimal para hacer las cuentas
    chequea_regA();
    segundos = BCD_decimal(in(0x00));   
    minutos = BCD_decimal(in(0x02));
@@ -219,6 +220,7 @@ void mostrar_configurar_alarma(){
   
    chequea_regA(); 
 
+   //Seteo los valores en el reloj de la alarma 
    if(segundos < 55){
        out(dec_to_BCD(segundos + 5), 0x01);
        out(dec_to_BCD(minutos), 0x03);
@@ -237,8 +239,8 @@ void mostrar_configurar_alarma(){
       }
    } 
 
-   reg_b=in(0x0B);
-   reg_b = reg_b | 0xA0; 
+   reg_b=in(0x0B); //Leo el valor en el registro B
+   reg_b = reg_b | 0x40; //Habilito las interrupciones por alarma 
    out(reg_b, 0x0B);  
 
    reg_c = in(0x0C); /* Borro flags anteriores */
@@ -249,12 +251,12 @@ void mostrar_configurar_alarma(){
     reg_c = in(0x0C);
    
 
-    if ((reg_c & 0x20) == 1){  // Verifico el bit 5
+    if ((reg_c & 0x20) != 0){  // Verifico el bit 5
       printf ("ALARMA: ¡beep! ¡beep!\n");
       usleep(1000000); //Espero 1 segundo 
       
       chequea_regA();
-      lee_alarma(); 
+      lee_alarma(); //Muestro el valor por pantalla
       
       usleep(1000000); //Espero 1 segundo 
       return; 
@@ -263,11 +265,6 @@ void mostrar_configurar_alarma(){
 
     usleep(500000);   /* Esperar 500ms */ 
   } 
-
-
-   //vuelvo a poner el bit 7 de B en cero
-   reg_b = reg_b &0x7F;
-   out(reg_b,0x0B);//ya volvi a habilitar actualizaciones
 
    return; 
 }
