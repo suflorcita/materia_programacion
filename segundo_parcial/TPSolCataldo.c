@@ -106,6 +106,8 @@ unsigned char dec_to_BCD(int number){
     mask = mask * 2;
   }
 
+  if(dec2 == 0)
+   return BCD; 
 
 
   mask = 0x10; // 5to bit 
@@ -206,6 +208,7 @@ void mostrar_configurar_alarma(){
 
    chequea_regA();
    lee_alarma();
+   
    //Configuro alarma para los proximos cinco segundos  
    // Leo los segundos actuales y los paso a decimal para hacer las cuentas
    chequea_regA();
@@ -213,11 +216,8 @@ void mostrar_configurar_alarma(){
    minutos = BCD_decimal(in(0x02));
    horas = BCD_decimal(in(0x04)); 
 
-   lee_hora(); 
-
-   reg_b = in(0x0B); //lo copie
-   out(reg_b | 0x20, 0x0B); //lo copie 
-
+  
+   chequea_regA(); 
 
    if(segundos < 55){
        out(dec_to_BCD(segundos + 5), 0x01);
@@ -237,16 +237,19 @@ void mostrar_configurar_alarma(){
       }
    } 
 
-   lee_alarma(); 
+   reg_b=in(0x0B);
+   reg_b = reg_b | 0xA0; 
+   out(reg_b, 0x0B);  
 
-   reg_c = in (0x0C); /* Borro flags anteriores */
+   reg_c = in(0x0C); /* Borro flags anteriores */
    
    /* Hago polling del reg C */
-   printf ("Espero las alarmas ...\n");
+   printf ("\nEspero las alarmas ...\n");
    for (int i = 0; i < 20; i++){ /* Espera 10 segundos en total */
-    reg_c = in (0x0C);
-    
-    if (reg_c & 0x20){  // Verifico el bit 5
+    reg_c = in(0x0C);
+   
+
+    if ((reg_c & 0x20) == 1){  // Verifico el bit 5
       printf ("ALARMA: ¡beep! ¡beep!\n");
       usleep(1000000); //Espero 1 segundo 
       
@@ -254,7 +257,7 @@ void mostrar_configurar_alarma(){
       lee_alarma(); 
       
       usleep(1000000); //Espero 1 segundo 
-      break; 
+      return; 
     }
        
 
@@ -262,6 +265,9 @@ void mostrar_configurar_alarma(){
   } 
 
 
+   //vuelvo a poner el bit 7 de B en cero
+   reg_b = reg_b &0x7F;
+   out(reg_b,0x0B);//ya volvi a habilitar actualizaciones
 
    return; 
 }
@@ -276,10 +282,14 @@ void lee_registro(){
    if(registro < 11)
       chequea_regA(); 
 
-   lectura_reg = in(0x00 + registro); 
+   if(registro < 0x64){
+      lectura_reg = in(0x00 + registro); 
+      printf("El valor en binario es (tal cual se leyó) es: ");  
+      int_to_bin(lectura_reg);
+   } else{
+      printf("El registro no existe\n"); 
+   }
 
-   printf("El valor en binario es (tal cual se leyó) es: ");  
-   int_to_bin(lectura_reg);
 
    return; 
 }
@@ -292,7 +302,7 @@ int imprime_menu () {
    printf ("\n1. MOSTRAR TABLA DE REGISTROS ");
    printf ("\n2. MOSTRAR Y CONFIGURAR ALARMA");
    printf ("\n3. LEER Y MOSTRAR DATOS DE UN REGISTRO INGRESADO POR TECLADO");
-   printf ("\n4. SALIR ");
+   printf ("\n4. SALIR\n ");
    printf("\nSeleccione una opción: ");
    scanf ("%d", &op);
    return op;
@@ -306,7 +316,7 @@ int main() {
    int op;
    char c, tecla; 
 
-   printf("TP Programación\n");
+   printf("\nTP Programación\n");
    printf("Alumno: Cataldo Sol Ayelen\n");
    printf("Materia: Programación\n");
    printf("Segundo cuatrimestre 2021 \n");
