@@ -127,11 +127,23 @@ void flags_d(){
 
 int main(){
 
+  /* Dar permisos a los ports 70 y 71 */
+  if (ioperm(P, 2, 1)) {
+    perror("ioperm"); //Mueestra "ioperm" + el mensaje de error 
+    exit(1);
+  }
+
+
 	flags_a(); 
 	flags_b(); 
 	flags_c(); 
 	flags_d(); 
 
+  /*Retirar permisos */
+  if (ioperm(P, 2, 0)) {
+    perror("ioperm");
+    exit(1);
+  }
 
 
 	return 0; 
