@@ -160,7 +160,7 @@ int main(){
     
     printf("\nBinario puro: "); 
     int_to_bin(BCD_decimal(valor)); 
-    printf("\n")
+    printf("\n"); 
   }
 
   /*Retirar permisos */
