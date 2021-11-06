@@ -99,7 +99,7 @@ void flags_c(){
    printf("\n-------------------Flags registro c---------------\n");
 
    reg_c = in(0x0C); 
-   for(int i = 0; i < 7; i++){
+   for(int i = 0; i < 8; i++){
    	
    	if(mask & reg_c){
    		flag = 1; 
