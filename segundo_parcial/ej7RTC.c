@@ -29,8 +29,8 @@ y muestra la hora minutos y segundos de la alarma en formato HH:MM:SS.*/
 
    dd = in(0x07); 
    mm = in(0x08); 
-   aa1 = in(0x09); 
-   aa2 = in(0x32); 
+   aa1 = in(0x32); 
+   aa2 = in(0x09); 
    
    printf("El día es: %02X/%02X/%02X%02X\n", dd, mm, aa1, aa2);
 }
