@@ -64,21 +64,21 @@ void lee_imprime (unsigned char reg){
 int main(){
   unsigned char registro; 
 
-  char *descripcion[] = {
-         "            Segundo",
-         "     Segundo Alarma",
-         "             Minuto",
-         "      Minuto Alarma",
-         "               Hora",
-         "        Hora Alarma",
-         "   Dia de la semana",
-         "        Dia del mes",
-         "                Mes",
-         "               Anio",
-         "         Registro A",
-         "         Registro B",
-         "         Registro C",
-         "         Registro D"
+ char *descripcion[] = {
+         "Segundo",
+         "Segundo Alarma",
+         "Minuto",
+         "Minuto Alarma",
+         "Hora",
+         "Hora Alarma",
+         "Dia de la semana",
+         "Dia del mes",
+         "Mes",
+         "Anio",
+         "Registro A",
+         "Registro B",
+         "Registro C",
+         "Registro D"
    };
 
   /* Dar permisos a los ports 70 y 71 */
