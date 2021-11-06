@@ -90,6 +90,7 @@ int main(){
   for(int i = 0; i < 13; i++){
     printf("%s: ", descripcion[i]); 
     lee_imprime(dec_to_BCD(i)); 
+    printf("\n"); 
   }
 
   /*Retirar permisos */

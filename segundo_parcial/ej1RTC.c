@@ -39,7 +39,7 @@ int main(){
     exit(1);
   }
 
-  lee_imprime(13); //pruebo la función
+  lee_imprime(0X0D); //pruebo la función
 
   /*Retirar permisos */
   if (ioperm(P, 2, 0)) {
