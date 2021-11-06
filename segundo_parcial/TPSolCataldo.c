@@ -249,7 +249,7 @@ void mostrar_configurar_alarma(){
    reg_c = in(0x0C); // Borro flags anteriores
 
    /* Hago polling del reg C */
-   printf ("\nEspero la alarma..\n");
+   printf ("\nEspero la alarma...\n");
    for (i = 0; i < 20; i++){ /* Espera 10 segundos en total */
     reg_c = in(0x0C); 
     
@@ -265,7 +265,7 @@ void mostrar_configurar_alarma(){
     }
        
 
-    usleep(500000);   /* Esperar 100ms */ 
+    usleep(500000);   /* Esperar 500ms */ 
   } 
 
    return; 
