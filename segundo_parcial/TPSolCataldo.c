@@ -1,7 +1,5 @@
 /*
-TP Ports. 
-
-
+TP Programación
 Al iniciar el programa, en líneas separadas y por única vez, muestre por pantalla:
 - Título del programa.
 - Apellido y Nombre de quien lo desarrolló.
@@ -125,6 +123,7 @@ unsigned char dec_to_BCD(int number){
 
 
 void chequea_regA(){
+/*Función que verifica el bit 7 del registro A(UIP)*/
    unsigned char reg_A; 
    reg_A = in (0x0A);
    if ((reg_A  & 0x80) != 0) //Verifica el bit 7 del reg_a (UIP)
@@ -157,6 +156,8 @@ y muestra la hora minutos y segundos de la alarma en formato HH:MM:SS.*/
 }
 
 void mostrar_tabla(){
+/*Función que muestra una tabla con el número de los registros 0x00 al 0x0D incluyendo el 0x32, su valor en binario 
+y en hexadecimal*/
    unsigned char lee_reg, primeras_cifras_anio; 
    char *descripcion[] = {
          "            Segundo",
@@ -204,7 +205,7 @@ void mostrar_tabla(){
 }
 
 void mostrar_configurar_alarma(){
-/*Muestra el horario de la alarma y lo configura*/
+/*Función que muestra el horario de la alarma y lo configura*/
    unsigned char reg_c, reg_b;
    int segundos, minutos, horas, i;  
    
@@ -271,17 +272,16 @@ void mostrar_configurar_alarma(){
 }
 
 void lee_registro(){
+/*Función que lee y muestra datos de un registro ingresado por teclado*/
    unsigned char registro, lectura_reg; 
    char tecla; 
 
    printf("Ingrese el número de un registro: "); 
    scanf("%hhd", &registro); 
-   printf("%X", registro);
 
-   if(registro < 11)
-      chequea_regA(); 
 
-   if(registro < 0x64){
+   if(registro <= 0x3F){
+      chequea_regA();
       lectura_reg = in(0x00 + registro); 
       printf("\nEl valor en binario es (tal cual se leyó) es: ");  
       int_to_bin(lectura_reg);
@@ -299,6 +299,7 @@ void lee_registro(){
 
 
 int imprime_menu () {
+/* Función que imprime menú de opciones*/
    int op;
 
    printf ("\n1. MOSTRAR TABLA DE REGISTROS ");
